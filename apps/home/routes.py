@@ -2,6 +2,8 @@ from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
+from werkzeug.utils import secure_filename
+from apps.authentication.models import Teams
 
 
 @blueprint.route('/index')
@@ -12,6 +14,7 @@ def index():
 @blueprint.route('/teams')
 @login_required
 def teams():
+    # print(Teams.query.all())
     return render_template('home/teams.html', segment='teams')
 
 

@@ -1,4 +1,4 @@
-from flask import render_template, redirect, request, url_for, session
+from flask import render_template, redirect, request, url_for, session, flash
 from flask_login import (
     current_user,
     login_user,
@@ -42,6 +42,8 @@ def login():
 
             login_user(user)
             return redirect(url_for('authentication_blueprint.route_default'))
+        else:
+            flash('Invalid Credentials', 'error')
 
         # Something (user or pass) is not ok
         return render_template('accounts/login.html',
@@ -59,8 +61,8 @@ def register():
     create_account_form = CreateAccountForm(request.form)
     if 'register' in request.form:
 
-        username = request.form['username']
-        email = request.form['email']
+        username    = request.form['username']
+        email       = request.form['email']
 
         # Check usename exists
         user = Users.query.filter_by(username=username).first()

@@ -16,6 +16,7 @@ class Users(db.Model, UserMixin):
     password        = db.Column(db.LargeBinary)
     ip_address      = db.Column(db.String(100), nullable = True)
     user_agent      = db.Column(db.String(200), nullable = True)
+    all_teams       = db.relationship('Teams', backref='teams', lazy=True)
     date_created    = db.Column(db.DateTime, nullable = False, default=datetime.now())
 
     def __init__(self, **kwargs):
@@ -35,6 +36,20 @@ class Users(db.Model, UserMixin):
     def __repr__(self):
         return str(self.username)
 
+class Teams(db.Model):
+
+    __tablename__ = 'Teams'
+
+    id              = db.Column(db.Integer, primary_key=True)
+    name            = db.Column(db.String(64), unique=True)
+    color           = db.Column(db.String(64))
+    user_id         = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    ip_address      = db.Column(db.String(100), nullable = True)
+    user_agent      = db.Column(db.String(200), nullable = True)
+    date_created    = db.Column(db.DateTime, nullable = False, default=datetime.now())
+
+    def __repr__(self):
+        return str(self.username)
 
 @login_manager.user_loader
 def user_loader(id):
