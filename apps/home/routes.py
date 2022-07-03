@@ -9,6 +9,11 @@ from jinja2 import TemplateNotFound
 def index():
     return render_template('home/index.html', segment='index')
 
+@blueprint.route('/teams')
+@login_required
+def teams():
+    return render_template('home/teams.html', segment='teams')
+
 
 @blueprint.route('/<template>')
 @login_required

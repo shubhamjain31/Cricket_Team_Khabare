@@ -1,8 +1,10 @@
+from email.policy import default
 from flask_login import UserMixin
 
 from apps import db, login_manager
 
 from apps.authentication.util import hash_pass
+from datetime import datetime
 
 class Users(db.Model, UserMixin):
 
@@ -12,6 +14,9 @@ class Users(db.Model, UserMixin):
     username        = db.Column(db.String(64), unique=True)
     email           = db.Column(db.String(64), unique=True)
     password        = db.Column(db.LargeBinary)
+    ip_address      = db.Column(db.String(100), nullable = True)
+    user_agent      = db.Column(db.String(200), nullable = True)
+    date_created    = db.Column(db.DateTime, nullable = False, default=datetime.now())
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():

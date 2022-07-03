@@ -80,6 +80,8 @@ def register():
 
         # else we can create the user
         user = Users(**request.form)
+        user.ip_address     = request.environ['REMOTE_ADDR']
+        user.user_agent     = request.headers.get('User-Agent')
         db.session.add(user)
         db.session.commit()
 
