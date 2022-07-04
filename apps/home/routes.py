@@ -1,9 +1,10 @@
 from apps.home import blueprint
-from flask import render_template, request
+from flask import render_template, request, session
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from werkzeug.utils import secure_filename
 from apps.authentication.models import Teams
+from apps import db
 
 
 @blueprint.route('/index')
@@ -14,8 +15,13 @@ def index():
 @blueprint.route('/teams')
 @login_required
 def teams():
-    # print(Teams.query.all())
-    return render_template('home/teams.html', segment='teams')
+    all_teams = Teams.query.filter_by(user_id=session["_user_id"])
+    print(Teams.query.filter_by(user_id=session["_user_id"]))
+    # print(session["_user_id"])
+    # me=Teams(name='jke', color='red', user_id=session["_user_id"])
+    # db.session.add(me)
+    # db.session.commit()
+    return render_template('home/teams.html', segment='teams', all_teams=all_teams)
 
 
 @blueprint.route('/<template>')

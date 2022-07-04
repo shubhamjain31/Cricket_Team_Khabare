@@ -49,7 +49,7 @@ class Teams(db.Model):
     date_created    = db.Column(db.DateTime, nullable = False, default=datetime.now())
 
     def __repr__(self):
-        return str(self.username)
+        return str(self.name)
 
 @login_manager.user_loader
 def user_loader(id):
