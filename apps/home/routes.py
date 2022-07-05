@@ -17,7 +17,7 @@ def index():
 @login_required
 def teams():
     all_teams = Teams.query.filter_by(user_id=session["_user_id"])
-    # print(session["_user_id"])
+    print(Teams.query.last())
     # me=Teams(name='jke', color='red', user_id=session["_user_id"])
     # db.session.add(me)
     # db.session.commit()
@@ -30,15 +30,22 @@ def add_team():
 
     if request.method == 'POST':
         if team_form.validate_on_submit():
-            print(request.form, team_form.flag.data.filename)
 
             name            = team_form.name.data
             color           = team_form.color.data
-            flag            = team_form.flag.data.filename
-            user_id         = session["_user_id"]
-            print(name,color, flag, user_id)
 
-            team = Teams(name=name, color=color, flag=flag, user_id=user_id)
+            if team_form.flag.data:
+                flag            = team_form.flag.data.filename
+            else:
+                flag            = None
+
+            user_id         = session["_user_id"]
+            ip_address      = request.environ['REMOTE_ADDR']
+            user_agent      = request.headers.get('User-Agent')
+
+            team_form.flag.data.save('media/flags/' + secure_filename(team_form.flag.data.filename))
+
+            team = Teams(name=name, color=color, flag=flag, user_id=user_id, ip_address=ip_address, user_agent=user_agent)
             db.session.add(team)
             db.session.commit()
             flash('Team Added!', 'success')
