@@ -44,6 +44,7 @@ class Teams(db.Model):
     name            = db.Column(db.String(64), unique=True)
     color           = db.Column(db.String(64))
     user_id         = db.Column(db.Integer, db.ForeignKey('Users.id'), nullable=False)
+    flag            = db.Column(db.String(1000), default='media/flags/')
     ip_address      = db.Column(db.String(100), nullable = True)
     user_agent      = db.Column(db.String(200), nullable = True)
     date_created    = db.Column(db.DateTime, nullable = False, default=datetime.now())

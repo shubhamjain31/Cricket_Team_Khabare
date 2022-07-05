@@ -1,10 +1,11 @@
 from apps.home import blueprint
-from flask import render_template, request, session
+from flask import render_template, request, flash, session
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from werkzeug.utils import secure_filename
 from apps.authentication.models import Teams
 from apps import db
+from apps.home.forms import TeamForm
 
 
 @blueprint.route('/index')
@@ -16,13 +17,32 @@ def index():
 @login_required
 def teams():
     all_teams = Teams.query.filter_by(user_id=session["_user_id"])
-    print(Teams.query.filter_by(user_id=session["_user_id"]))
     # print(session["_user_id"])
     # me=Teams(name='jke', color='red', user_id=session["_user_id"])
     # db.session.add(me)
     # db.session.commit()
     return render_template('home/teams.html', segment='teams', all_teams=all_teams)
 
+@blueprint.route('/team-add', methods=['GET', 'POST'])
+@login_required
+def add_team():
+    team_form = TeamForm()
+
+    if request.method == 'POST':
+        if team_form.validate_on_submit():
+            print(request.form, team_form.flag.data.filename)
+
+            name            = team_form.name.data
+            color           = team_form.color.data
+            flag            = team_form.flag.data.filename
+            user_id         = session["_user_id"]
+            print(name,color, flag, user_id)
+
+            team = Teams(name=name, color=color, flag=flag, user_id=user_id)
+            db.session.add(team)
+            db.session.commit()
+            flash('Team Added!', 'success')
+    return render_template('home/add_edit_team.html', segment='add-edit-team', form=team_form)
 
 @blueprint.route('/<template>')
 @login_required

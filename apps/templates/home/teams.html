@@ -19,7 +19,14 @@
         <div class="card">
           <!-- Card header -->
           <div class="card-header border-0">
-            <h3 class="mb-0">Teams</h3>
+            <div class="row">
+              <div class="col-6">
+                <h3 class="mb-0">Teams</h3>
+              </div>
+              <div class="col-6 text-right">
+                <a class="btn btn-primary btn-sm" href="/team-add">Add</a>
+              </div>
+            </div>
           </div>
           <!-- Light table -->
           <div class="table-responsive">
@@ -53,9 +60,8 @@
                         <i class="fas fa-ellipsis-v"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="/edit-team">Edit</a>
+                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="#teamModal">Delete</a>
                       </div>
                     </div>
                   </td>
@@ -89,6 +95,25 @@
                 </li>
               </ul>
             </nav>
+          </div>
+        </div>
+        <div class="modal fade" id="teamModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Team</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are You Sure You Want To Delete <b><span id="modal_body"></span></b>?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Delete</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

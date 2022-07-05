@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Add Team {% endblock title %}
+
+{% block content %}
+
+<!-- Page content -->
+<div class="container-fluid mt-1">
+  <div class="row">
+    <div class="col-xl-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">Add Team </h3>
+            </div>
+            <div class="col-4 text-right">
+              <!-- <a href="#!" class="btn btn-sm btn-primary">Settings</a> -->
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+            {% for category, message in get_flashed_messages(with_categories=True) %}
+                <div class="alert {% if category == 'error' %}alert-warning {% else %} alert-{{ category }}{% endif %}"
+                    role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    {{message}}
+                </div>
+            {% endfor %}
+
+          <form role="form" method="post" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <h6 class="heading-small text-muted mb-4">Team information</h6>
+            <div class="pl-lg-4">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-username">Name*</label>
+                    {{ form.name(placeholder="Name",class="form-control") }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-color">Color*</label>
+                    {{ form.color(placeholder="Color",class="form-control") }}
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label class="form-control-label" for="input-first-name">Flag*</label>
+                    {{ form.flag(class="form-control") }}
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                </div>
+              </div>
+              <button type="submit" name="team" class="btn btn-success">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
